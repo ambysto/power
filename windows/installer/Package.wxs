@@ -1,0 +1,152 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Package Name="Ambysto Power" Manufacturer="Ambysto" Version="$(AppVersion)" UpgradeCode="{4D8C92F1-6E34-4B73-8A19-7C52E10F9B65}" Scope="perUser" Compressed="yes">
+    <MajorUpgrade AllowSameVersionUpgrades="yes" Schedule="afterInstallInitialize" DowngradeErrorMessage="A newer version of Ambysto Power is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+    <Property Id="ARPNOMODIFY" Value="1" />
+    <Property Id="ARPNOREPAIR" Value="1" />
+    <Property Id="LEAN_SELECTED" Secure="yes" />
+    <Property Id="OPTIMER_SELECTED" Secure="yes" />
+    <Icon Id="PowerIcon.ico" SourceFile="..\src\Ambysto.Power.App\Assets\AmbystoPower.ico" />
+    <Property Id="ARPPRODUCTICON" Value="PowerIcon.ico" />
+    <WixVariable Id="WixUIBannerBmp" Value="Art\Banner.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="Art\Dialog.bmp" />
+
+    <UI Id="PowerUI">
+      <!-- 5-screen custom dark installer UI ("The Printed Readout", MsiEmbeddedUI) with Smart Sibling Filtering. -->
+      <EmbeddedUI Id="PowerEmbeddedUI" Name="EmbeddedUI.dll" SourceFile="$(EmbeddedUIDll)">
+        <EmbeddedUIResource Id="ResScreen1Base" Name="Screen1_Base.png" SourceFile="Art\Screen1_Base.png" />
+        <EmbeddedUIResource Id="ResScreen2Base" Name="Screen2_Base.png" SourceFile="Art\Screen2_Base.png" />
+        <EmbeddedUIResource Id="ResScreen2Accepted" Name="Screen2_Accepted.png" SourceFile="Art\Screen2_Accepted.png" />
+        <EmbeddedUIResource Id="ResScreen2NoOffer" Name="Screen2_NoOffer.png" SourceFile="Art\Screen2_NoOffer.png" />
+        <EmbeddedUIResource Id="ResScreen3Base" Name="Screen3_Base.png" SourceFile="Art\Screen3_Base.png" />
+        <EmbeddedUIResource Id="ResScreen4Newsletter" Name="Screen4_Newsletter.png" SourceFile="Art\Screen4_Newsletter.png" />
+        <EmbeddedUIResource Id="ResScreen5Finish" Name="Screen5_Finish.png" SourceFile="Art\Screen5_Finish.png" />
+        <EmbeddedUIResource Id="ResScreen5FinishOff" Name="Screen5_Finish_off.png" SourceFile="Art\Screen5_Finish_off.png" />
+        <EmbeddedUIResource Id="ResOfferLeanOn" Name="OfferBar_lean_on.png" SourceFile="Art\OfferBar_lean_on.png" />
+        <EmbeddedUIResource Id="ResOfferLeanOff" Name="OfferBar_lean_off.png" SourceFile="Art\OfferBar_lean_off.png" />
+        <EmbeddedUIResource Id="ResShowcaseLean" Name="Showcase_lean.png" SourceFile="Art\Showcase_lean.png" />
+        <EmbeddedUIResource Id="ResOfferOptimerOn" Name="OfferBar_optimer_on.png" SourceFile="Art\OfferBar_optimer_on.png" />
+        <EmbeddedUIResource Id="ResOfferOptimerOff" Name="OfferBar_optimer_off.png" SourceFile="Art\OfferBar_optimer_off.png" />
+        <EmbeddedUIResource Id="ResShowcaseOptimer" Name="Showcase_optimer.png" SourceFile="Art\Showcase_optimer.png" />
+        <EmbeddedUIResource Id="ResOfferDevboxOn" Name="OfferBar_devbox_on.png" SourceFile="Art\OfferBar_devbox_on.png" />
+        <EmbeddedUIResource Id="ResOfferDevboxOff" Name="OfferBar_devbox_off.png" SourceFile="Art\OfferBar_devbox_off.png" />
+        <EmbeddedUIResource Id="ResShowcaseDevbox" Name="Showcase_devbox.png" SourceFile="Art\Showcase_devbox.png" />
+        <EmbeddedUIResource Id="ResOfferTuneOn" Name="OfferBar_tune_on.png" SourceFile="Art\OfferBar_tune_on.png" />
+        <EmbeddedUIResource Id="ResOfferTuneOff" Name="OfferBar_tune_off.png" SourceFile="Art\OfferBar_tune_off.png" />
+        <EmbeddedUIResource Id="ResShowcaseTune" Name="Showcase_tune.png" SourceFile="Art\Showcase_tune.png" />
+        <EmbeddedUIResource Id="ResOfferGateOn" Name="OfferBar_gate_on.png" SourceFile="Art\OfferBar_gate_on.png" />
+        <EmbeddedUIResource Id="ResOfferGateOff" Name="OfferBar_gate_off.png" SourceFile="Art\OfferBar_gate_off.png" />
+        <EmbeddedUIResource Id="ResShowcaseGate" Name="Showcase_gate.png" SourceFile="Art\Showcase_gate.png" />
+      </EmbeddedUI>
+      <TextStyle Id="WixUI_Font_Normal" FaceName="Segoe UI" Size="9" />
+      <TextStyle Id="WixUI_Font_Bigger" FaceName="Segoe UI" Size="12" />
+      <TextStyle Id="WixUI_Font_Title" FaceName="Segoe UI" Size="9" Bold="yes" />
+      <Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
+      <Property Id="WixUI_Mode" Value="Minimal" />
+      <DialogRef Id="ErrorDlg" />
+      <DialogRef Id="FatalError" />
+      <DialogRef Id="FilesInUse" />
+      <DialogRef Id="MsiRMFilesInUse" />
+      <DialogRef Id="PrepareDlg" />
+      <DialogRef Id="ProgressDlg" />
+      <DialogRef Id="ResumeDlg" />
+      <DialogRef Id="UserExit" />
+      <DialogRef Id="WelcomeDlg" />
+      <!-- PowerInstallationDlg is the branded Installation stage. It is UI-only: the MSI still owns sequencing and files. -->
+      <Dialog Id="PowerInstallationDlg" Width="493" Height="348" Title="Ambysto Power — Installation">
+        <Control Id="Background" Type="Bitmap" X="0" Y="0" Width="493" Height="312" TabSkip="yes" Text="!(loc.WelcomeDlgBitmap)" />
+        <Control Id="Title" Type="Text" X="180" Y="20" Width="110" Height="24" Transparent="yes" NoPrefix="yes" Text="{\WixUI_Font_Title}Installing Ambysto Power" />
+        <Control Id="Description" Type="Text" X="180" Y="52" Width="110" Height="54" Transparent="yes" NoPrefix="yes" Text="Power is being installed for your Windows user. The right panel has more from Ambysto." />
+        <Control Id="PromotionTitle" Type="Text" X="308" Y="30" Width="165" Height="24" Transparent="yes" NoPrefix="yes" Text="{\WixUI_Font_Title}More from Ambysto" />
+        <Control Id="Lean" Type="Text" X="308" Y="54" Width="165" Height="16" Transparent="yes" NoPrefix="yes" Text="Ambysto Lean" />
+        <Control Id="LeanText" Type="Text" X="308" Y="70" Width="165" Height="26" Transparent="yes" NoPrefix="yes" Text="Where did your disk go? Find large files, duplicates and app leftovers." />
+        <Control Id="LeanOption" Type="PushButton" X="308" Y="96" Width="165" Height="20" Text="Install Lean too">
+          <Publish Property="LEAN_SELECTED" Value="1" />
+        </Control>
+        <Control Id="LeanLink" Type="Text" X="308" Y="116" Width="165" Height="16" Transparent="yes" NoPrefix="yes" Text="Download page opens after Finish" />
+        <Control Id="Optimer" Type="Text" X="308" Y="142" Width="165" Height="16" Transparent="yes" NoPrefix="yes" Text="Ambysto Optimer" />
+        <Control Id="OptimerText" Type="Text" X="308" Y="158" Width="165" Height="26" Transparent="yes" NoPrefix="yes" Text="See which app is eating your memory, CPU and disk, and clean safely." />
+        <Control Id="OptimerOption" Type="PushButton" X="308" Y="184" Width="165" Height="20" Text="Install Optimer too">
+          <Publish Property="OPTIMER_SELECTED" Value="1" />
+        </Control>
+        <Control Id="OptimerLink" Type="Text" X="308" Y="204" Width="165" Height="16" Transparent="yes" NoPrefix="yes" Text="Download page opens after Finish" />
+        <Control Id="Back" Type="PushButton" X="261" Y="321" Width="56" Height="17" Text="!(loc.WixUIBack)">
+          <Publish Event="NewDialog" Value="WelcomeDlg" />
+        </Control>
+        <Control Id="Install" Type="PushButton" X="341" Y="321" Width="56" Height="17" Default="yes" Text="&amp;Install">
+          <Publish Event="EndDialog" Value="Return" />
+        </Control>
+        <Control Id="Cancel" Type="PushButton" X="421" Y="321" Width="56" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
+          <Publish Event="SpawnDialog" Value="CancelDlg" />
+        </Control>
+        <Control Id="BottomLine" Type="Line" X="0" Y="312" Width="493" Height="0" />
+      </Dialog>
+      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="PowerInstallationDlg" Condition="NOT Installed" />
+      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg" Condition="Installed OR PATCH" />
+      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="1" Condition="NOT Installed" />
+      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="2" Condition="Installed" />
+      <Publish Dialog="MaintenanceWelcomeDlg" Control="Next" Event="NewDialog" Value="MaintenanceTypeDlg" />
+      <Publish Dialog="MaintenanceTypeDlg" Control="RepairButton" Event="NewDialog" Value="VerifyReadyDlg" />
+      <Publish Dialog="MaintenanceTypeDlg" Control="RemoveButton" Event="NewDialog" Value="VerifyReadyDlg" />
+      <Publish Dialog="MaintenanceTypeDlg" Control="Back" Event="NewDialog" Value="MaintenanceWelcomeDlg" />
+      <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchPower" Order="1" Condition="WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 AND NOT Installed" />
+      <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="OpenLean" Order="2" Condition="LEAN_SELECTED = 1 AND NOT Installed" />
+      <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="OpenOptimer" Order="3" Condition="OPTIMER_SELECTED = 1 AND NOT Installed" />
+      <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999" />
+      <InstallUISequence>
+        <Show Dialog="override WelcomeDlg" Before="ProgressDlg" Condition="NOT Installed" />
+      </InstallUISequence>
+    </UI>
+    <UIRef Id="WixUI_Common" />
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Open Ambysto Power" />
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1" />
+    <CustomAction Id="LaunchPower" Directory="INSTALLFOLDER" ExeCommand="&quot;[INSTALLFOLDER]AmbystoPower.exe&quot;" Return="asyncNoWait" />
+    <CustomAction Id="OpenLean" Directory="SystemFolder" ExeCommand="&quot;[SystemFolder]rundll32.exe&quot; url.dll,FileProtocolHandler &quot;https://lean.ambysto.com&quot;" Return="asyncNoWait" />
+    <CustomAction Id="OpenOptimer" Directory="SystemFolder" ExeCommand="&quot;[SystemFolder]rundll32.exe&quot; url.dll,FileProtocolHandler &quot;https://optimer.ambysto.com&quot;" Return="asyncNoWait" />
+
+    <SetProperty Id="ARPINSTALLLOCATION" Value="[INSTALLFOLDER]" After="CostFinalize" />
+
+    <StandardDirectory Id="LocalAppDataFolder">
+      <Directory Id="LocalProgramsFolder" Name="Programs">
+        <Directory Id="INSTALLFOLDER" Name="Ambysto Power" />
+      </Directory>
+    </StandardDirectory>
+
+    <Feature Id="Main">
+      <Files Directory="INSTALLFOLDER" Include="$(AppPublishDir)**">
+        <Exclude Files="$(AppPublishDir)Assets\Fonts\*.ttf" />
+      </Files>
+      <ComponentRef Id="PowerFontJetBrainsMonoRegular" />
+      <ComponentRef Id="PowerFontJetBrainsMonoMedium" />
+      <ComponentRef Id="PowerFontJetBrainsMonoBold" />
+      <ComponentRef Id="PowerFontGeistRegular" />
+      <ComponentRef Id="PowerFontGeistMedium" />
+      <ComponentRef Id="StartMenuShortcut" />
+    </Feature>
+
+    <Component Id="PowerFontJetBrainsMonoRegular" Directory="INSTALLFOLDER" Subdirectory="Assets\Fonts" Guid="*">
+      <File Id="JetBrainsMonoRegular" Source="$(AppPublishDir)Assets\Fonts\JetBrainsMono-Regular.ttf" DefaultLanguage="0" KeyPath="yes" />
+    </Component>
+    <Component Id="PowerFontJetBrainsMonoMedium" Directory="INSTALLFOLDER" Subdirectory="Assets\Fonts" Guid="*">
+      <File Id="JetBrainsMonoMedium" Source="$(AppPublishDir)Assets\Fonts\JetBrainsMono-Medium.ttf" DefaultLanguage="0" KeyPath="yes" />
+    </Component>
+    <Component Id="PowerFontJetBrainsMonoBold" Directory="INSTALLFOLDER" Subdirectory="Assets\Fonts" Guid="*">
+      <File Id="JetBrainsMonoBold" Source="$(AppPublishDir)Assets\Fonts\JetBrainsMono-Bold.ttf" DefaultLanguage="0" KeyPath="yes" />
+    </Component>
+    <Component Id="PowerFontGeistRegular" Directory="INSTALLFOLDER" Subdirectory="Assets\Fonts" Guid="*">
+      <File Id="GeistRegular" Source="$(AppPublishDir)Assets\Fonts\Geist-Regular.ttf" DefaultLanguage="0" KeyPath="yes" />
+    </Component>
+    <Component Id="PowerFontGeistMedium" Directory="INSTALLFOLDER" Subdirectory="Assets\Fonts" Guid="*">
+      <File Id="GeistMedium" Source="$(AppPublishDir)Assets\Fonts\Geist-Medium.ttf" DefaultLanguage="0" KeyPath="yes" />
+    </Component>
+
+    <StandardDirectory Id="ProgramMenuFolder">
+      <Component Id="StartMenuShortcut">
+        <Shortcut Id="PowerShortcut" Name="Ambysto Power" Target="[INSTALLFOLDER]AmbystoPower.exe" WorkingDirectory="INSTALLFOLDER" Icon="PowerIcon.ico">
+          <ShortcutProperty Key="System.AppUserModel.ID" Value="Ambysto.Power" />
+        </Shortcut>
+        <RegistryValue Root="HKCU" Key="Software\Ambysto\Power" Name="StartMenuShortcut" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </StandardDirectory>
+  </Package>
+</Wix>

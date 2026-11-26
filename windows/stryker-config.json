@@ -1,0 +1,20 @@
+{
+  "stryker-config": {
+    "project": "Ambysto.Power.Core.csproj",
+    "test-projects": [ "Ambysto.Power.Core.Tests.csproj" ],
+    "test-case-filter": "TestCategory!=Console&TestCategory!=Admin&TestCategory!=ProDebug",
+    "mutate": [
+      "**/Battery/BatteryMonitor.cs",
+      "**/Thermal/SensorAggregator.cs",
+      "**/KeepAwake/KeepAwakeController.cs",
+      "**/Apps/PowerEstimator.cs",
+      "**/History/HistoryStore.cs"
+    ],
+    "concurrency": 4,
+    "mutation-level": "Standard",
+    "coverage-analysis": "perTest",
+    "reporters": [ "json", "html", "cleartext" ],
+    "thresholds": { "high": 90, "low": 75, "break": 0 },
+    "additional-timeout": 20000
+  }
+}

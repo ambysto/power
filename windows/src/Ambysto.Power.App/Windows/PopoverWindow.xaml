@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="Ambysto.Power.App.Windows.PopoverWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Ambysto Power — Glance">
+
+    <Grid Background="{StaticResource PowerBgBrush}" Padding="16" RowSpacing="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- 1 & 2 & 3: Charge, Health, Watts -->
+        <Border Grid.Row="0" Background="{StaticResource PowerSurfaceBrush}" BorderBrush="{StaticResource PowerBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="12">
+            <StackPanel Spacing="4">
+                <TextBlock x:Name="ChargeHeadlineText" Text="Mains" FontFamily="{StaticResource PowerMonoFont}" FontSize="18" FontWeight="SemiBold" Foreground="{StaticResource PowerTextPrimaryBrush}" />
+                <TextBlock x:Name="HealthAndCyclesText" Text="Health: not reported" FontFamily="{StaticResource PowerSansFont}" FontSize="12" Foreground="{StaticResource PowerTextSecondaryBrush}" />
+                <TextBlock x:Name="DischargeWattsText" Text="" FontFamily="{StaticResource PowerMonoFont}" FontSize="12" Foreground="{StaticResource PowerAccentBrush}" Visibility="Collapsed" />
+            </StackPanel>
+        </Border>
+
+        <!-- 4: Top 3 Apps -->
+        <Border Grid.Row="1" Background="{StaticResource PowerSurfaceBrush}" BorderBrush="{StaticResource PowerBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="12">
+            <StackPanel Spacing="4">
+                <TextBlock Text="TOP APPS (5 MIN ESTIMATE)" FontFamily="{StaticResource PowerMonoFont}" FontSize="11" Foreground="{StaticResource PowerTextMutedBrush}" />
+                <TextBlock x:Name="TopAppsText" Text="Sampling..." FontFamily="{StaticResource PowerSansFont}" FontSize="13" Foreground="{StaticResource PowerTextPrimaryBrush}" TextWrapping="Wrap" />
+            </StackPanel>
+        </Border>
+
+        <!-- 5: Thermal & Hottest Sensor -->
+        <Border Grid.Row="2" Background="{StaticResource PowerSurfaceBrush}" BorderBrush="{StaticResource PowerBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="12">
+            <StackPanel Spacing="4">
+                <TextBlock Text="THERMAL &amp; SENSORS" FontFamily="{StaticResource PowerMonoFont}" FontSize="11" Foreground="{StaticResource PowerTextMutedBrush}" />
+                <TextBlock x:Name="ThermalLineText" Text="Nominal · no sensors found" FontFamily="{StaticResource PowerSansFont}" FontSize="13" Foreground="{StaticResource PowerTextPrimaryBrush}" />
+            </StackPanel>
+        </Border>
+
+        <!-- 6: Keep-Awake Quick Controls -->
+        <Border Grid.Row="3" Background="{StaticResource PowerSurfaceBrush}" BorderBrush="{StaticResource PowerBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="12">
+            <StackPanel Spacing="8">
+                <TextBlock Text="KEEP-AWAKE" FontFamily="{StaticResource PowerMonoFont}" FontSize="11" Foreground="{StaticResource PowerTextMutedBrush}" />
+                <TextBlock x:Name="KeepAwakeStatusText" Text="Inactive" FontFamily="{StaticResource PowerSansFont}" FontSize="13" Foreground="{StaticResource PowerTextPrimaryBrush}" TextWrapping="Wrap" />
+                <TextBlock x:Name="EndedNoticeText" Text="" FontFamily="{StaticResource PowerMonoFont}" FontSize="11" Foreground="{StaticResource PowerWarnBrush}" Visibility="Collapsed" TextWrapping="Wrap" />
+                <CheckBox x:Name="KeepDisplayOnCheck" Content="Keep display on" IsChecked="True" Foreground="{StaticResource PowerTextSecondaryBrush}" />
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <Button Content="On" Click="OnStartIndefiniteClick" />
+                    <Button Content="30m" Click="OnStart30MinClick" />
+                    <Button Content="1h" Click="OnStart1HourClick" />
+                    <Button Content="2h" Click="OnStart2HoursClick" />
+                    <Button Content="Stop" Click="OnStopManualClick" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- 7: Open Main Window -->
+        <Button Grid.Row="4" Content="Open Ambysto Power" HorizontalAlignment="Stretch" Click="OnOpenMainWindowClick" />
+    </Grid>
+</Window>

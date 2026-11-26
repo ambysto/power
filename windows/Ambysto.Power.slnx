@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Ambysto.Power.Core/Ambysto.Power.Core.csproj" />
+    <Project Path="src/Ambysto.Power.App/Ambysto.Power.App.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Ambysto.Power.Core.Tests/Ambysto.Power.Core.Tests.csproj" />
+    <Project Path="tests/Ambysto.Power.UiTests/Ambysto.Power.UiTests.csproj" />
+  </Folder>
+</Solution>

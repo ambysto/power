@@ -1,0 +1,19 @@
+<Project>
+  <!-- Shared settings for Ambysto Power on Windows. docs/spec/ and the intent are the contract; the Swift
+       code is never read. Each project sets its own target framework. -->
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <Deterministic>true</Deterministic>
+    <NoWarn>$(NoWarn);CA1515</NoWarn>
+  </PropertyGroup>
+  <!-- The Pro features are a private module. Present on disk (the private repository) the build includes it; absent
+       (the public repository) the build has no Pro features. -p:PowerPro=false builds the public variant from the private tree. -->
+  <PropertyGroup>
+    <PowerPro Condition="'$(PowerPro)' == '' And Exists('$(MSBuildThisFileDirectory)pro\Ambysto.Power.Pro\Ambysto.Power.Pro.csproj')">true</PowerPro>
+  </PropertyGroup>
+</Project>

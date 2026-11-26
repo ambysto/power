@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
+    <SupportedOSPlatformVersion>10.0.26100.0</SupportedOSPlatformVersion>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <RootNamespace>Ambysto.Power.Core.Tests</RootNamespace>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="MSTest" Version="4.4.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/Ambysto.Power.Core/Ambysto.Power.Core.csproj" />
+  </ItemGroup>
+  <!-- The tests of the Pro features live with the private module and are compiled in only when it is present. -->
+  <ItemGroup Condition="'$(PowerPro)' == 'true'">
+    <ProjectReference Include="..\..\pro\Ambysto.Power.Pro\Ambysto.Power.Pro.csproj" />
+    <Compile Include="..\..\pro\tests\*.cs" LinkBase="Pro" />
+  </ItemGroup>
+  <PropertyGroup Condition="'$(PowerPro)' == 'true'">
+    <DefineConstants>$(DefineConstants);POWER_PRO</DefineConstants>
+  </PropertyGroup>
+</Project>

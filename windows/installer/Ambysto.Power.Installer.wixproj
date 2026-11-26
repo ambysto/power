@@ -1,0 +1,39 @@
+<Project Sdk="WixToolset.Sdk/5.0.2">
+  <!-- Per-user MSI installer for Ambysto Power (WiX Toolset v5, build-time SDK of this project only). -->
+  <PropertyGroup>
+    <OutputName>AmbystoPower</OutputName>
+    <InstallerPlatform>x64</InstallerPlatform>
+    <AppProject>$(MSBuildThisFileDirectory)..\src\Ambysto.Power.App\Ambysto.Power.App.csproj</AppProject>
+    <AppPublishDir>$(MSBuildThisFileDirectory)obj\app-publish\</AppPublishDir>
+    <AppVersionMinor>$([MSBuild]::Add($([MSBuild]::Multiply($([MSBuild]::Subtract($([System.DateTime]::UtcNow.Year), 2026)), 12)), $([System.DateTime]::UtcNow.Month)))</AppVersionMinor>
+    <AppVersionBuild>$([MSBuild]::Add($([MSBuild]::Multiply($([MSBuild]::Subtract($([System.DateTime]::UtcNow.Day), 1)), 1440)), $([MSBuild]::Add($([MSBuild]::Multiply($([System.DateTime]::UtcNow.Hour), 60)), $([System.DateTime]::UtcNow.Minute)))))</AppVersionBuild>
+    <AppVersion Condition="'$(AppVersion)' == ''">1.$(AppVersionMinor).$(AppVersionBuild)</AppVersion>
+    <PowerFrameworkLanguages>en-US;en-GB</PowerFrameworkLanguages>
+        <EmbeddedUIDll>$(MSBuildThisFileDirectory)obj\EmbeddedUI.dll</EmbeddedUIDll>
+    <VcVarsBat>C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\VC\Auxiliary\Build\vcvars64.bat</VcVarsBat>
+    <VcVarsBat Condition="!Exists('$(VcVarsBat)')">C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat</VcVarsBat>
+    <!-- Wherever the Pro module exists (the private repository) an installer build requires it in the publish folder and
+         fails without it, whatever the reason it is missing (PowerPro=false in the environment included). Only an explicit
+         -p:PowerProRequired=false builds a no-Pro MSI there. The public repository has no module and the guard is off. -->
+    <PowerProRequired Condition="'$(PowerProRequired)' == '' And Exists('$(MSBuildThisFileDirectory)..\pro\Ambysto.Power.Pro\Ambysto.Power.Pro.csproj')">true</PowerProRequired>
+    <DefineConstants>AppPublishDir=$(AppPublishDir);AppVersion=$(AppVersion);EmbeddedUIDll=$(EmbeddedUIDll)</DefineConstants>
+    <SuppressIces>ICE38;ICE64;ICE91;ICE61</SuppressIces>
+    <SuppressSpecificWarnings>1101</SuppressSpecificWarnings>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="WixToolset.UI.wixext" Version="5.0.2" />
+  </ItemGroup>
+  <Target Name="PublishApp" BeforeTargets="BeforeBuild">
+    <MakeDir Directories="$(MSBuildThisFileDirectory)obj" />
+    <Exec Command="cmd.exe /c &quot;call &quot;$(VcVarsBat)&quot; &gt;nul &amp;&amp; cl.exe /nologo /O2 /EHsc /W3 /DUNICODE /D_UNICODE /LD &quot;$(MSBuildThisFileDirectory)EmbeddedUI.cpp&quot; /Fe:&quot;$(EmbeddedUIDll)&quot; /Fo:&quot;$(MSBuildThisFileDirectory)obj\EmbeddedUI.obj&quot; user32.lib gdi32.lib gdiplus.lib msi.lib shell32.lib advapi32.lib urlmon.lib ole32.lib&quot;" />
+    <RemoveDir Directories="$(AppPublishDir)" />
+    <MSBuild Projects="$(AppProject)" Targets="Restore" Properties="Configuration=Release;Platform=x64;RuntimeIdentifier=win-x64;SelfContained=true;PowerInstallerRestore=true" />
+    <MSBuild Projects="$(AppProject)" Targets="Publish" Properties="Configuration=Release;Platform=x64;RuntimeIdentifier=win-x64;SelfContained=true;PublishDir=$(AppPublishDir);Version=$(AppVersion)" />
+    <ItemGroup>
+      <PowerCultureFolder Include="$([System.IO.Directory]::GetDirectories('$(AppPublishDir)'))" />
+      <PowerDropFolder Include="@(PowerCultureFolder)" Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('%(Filename)%(Extension)', '^[a-z]{2,3}(-[A-Za-z0-9]{2,8})+$', RegexOptions.IgnoreCase)) and !$([System.Text.RegularExpressions.Regex]::IsMatch(';$(PowerFrameworkLanguages);', ';%(Filename)%(Extension);', RegexOptions.IgnoreCase))" />
+    </ItemGroup>
+    <RemoveDir Directories="@(PowerDropFolder)" />
+    <Error Condition="'$(PowerProRequired)' == 'true' And !Exists('$(AppPublishDir)Ambysto.Power.Pro.dll')" Text="PowerProRequired is set but Ambysto.Power.Pro.dll is not in the publish folder: the Pro module is missing." />
+  </Target>
+</Project>

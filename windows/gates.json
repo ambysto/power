@@ -1,0 +1,71 @@
+{
+  "solution": "windows/Ambysto.Power.slnx",
+  "suites": [
+    {
+      "name": "core",
+      "context": "session0",
+      "filter": "TestCategory!=Console&TestCategory!=Admin&TestCategory!=ProDebug"
+    },
+    {
+      "name": "console",
+      "context": "console",
+      "filter": "TestCategory=Console&TestCategory!=ProDebug"
+    },
+    {
+      "name": "admin",
+      "context": "admin",
+      "filter": "TestCategory=Admin&TestCategory!=ProDebug"
+    },
+    {
+      "name": "pro-debug",
+      "context": "console",
+      "filter": "TestCategory=ProDebug",
+      "configuration": "Debug"
+    }
+  ],
+  "host_checks": [
+    "scripts/windows-choke-points.sh",
+    "scripts/windows-choke-points-fixtures.sh",
+    "scripts/windows-packages.sh",
+    "scripts/windows-packages-fixtures.sh"
+  ],
+  "mutation": {
+    "project": "windows/tests/Ambysto.Power.Core.Tests",
+    "config": "windows/stryker-config.json"
+  },
+  "binary_checks": [
+    {
+      "name": "release-has-no-pro",
+      "configuration": "Release",
+      "files": [
+        "windows/src/Ambysto.Power.App/bin/Release/net10.0-windows10.0.26100.0/win-x64/AmbystoPower.dll",
+        "windows/src/Ambysto.Power.App/bin/Release/net10.0-windows10.0.26100.0/win-x64/AmbystoPower.exe"
+      ],
+      "absent": "--pro"
+    },
+    {
+      "name": "debug-has-pro",
+      "configuration": "Debug",
+      "files": [
+        "windows/src/Ambysto.Power.App/bin/Debug/net10.0-windows10.0.26100.0/win-x64/AmbystoPower.dll"
+      ],
+      "present": "--pro"
+    },
+    {
+      "name": "release-has-no-update-qa",
+      "configuration": "Release",
+      "files": [
+        "windows/src/Ambysto.Power.App/bin/Release/net10.0-windows10.0.26100.0/win-x64/AmbystoPower.dll"
+      ],
+      "absent": "--update-qa"
+    },
+    {
+      "name": "debug-has-update-qa",
+      "configuration": "Debug",
+      "files": [
+        "windows/src/Ambysto.Power.App/bin/Debug/net10.0-windows10.0.26100.0/win-x64/AmbystoPower.dll"
+      ],
+      "present": "--update-qa"
+    }
+  ]
+}

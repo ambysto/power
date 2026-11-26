@@ -1,0 +1,31 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Color x:Key="PowerBgColor">#141312</Color>
+    <Color x:Key="PowerSurfaceColor">#1D1B1A</Color>
+    <Color x:Key="PowerElevatedColor">#262321</Color>
+    <Color x:Key="PowerBorderColor">#332F2C</Color>
+    <Color x:Key="PowerTextPrimaryColor">#F4F1EA</Color>
+    <Color x:Key="PowerTextSecondaryColor">#A6A098</Color>
+    <Color x:Key="PowerTextMutedColor">#6E6860</Color>
+    <Color x:Key="PowerAccentColor">#9FC675</Color>
+    <Color x:Key="PowerOkColor">#4ADE80</Color>
+    <Color x:Key="PowerWarnColor">#FACC15</Color>
+    <Color x:Key="PowerDangerColor">#F87171</Color>
+
+    <SolidColorBrush x:Key="PowerBgBrush" Color="{StaticResource PowerBgColor}" />
+    <SolidColorBrush x:Key="PowerSurfaceBrush" Color="{StaticResource PowerSurfaceColor}" />
+    <SolidColorBrush x:Key="PowerElevatedBrush" Color="{StaticResource PowerElevatedColor}" />
+    <SolidColorBrush x:Key="PowerBorderBrush" Color="{StaticResource PowerBorderColor}" />
+    <SolidColorBrush x:Key="PowerTextPrimaryBrush" Color="{StaticResource PowerTextPrimaryColor}" />
+    <SolidColorBrush x:Key="PowerTextSecondaryBrush" Color="{StaticResource PowerTextSecondaryColor}" />
+    <SolidColorBrush x:Key="PowerTextMutedBrush" Color="{StaticResource PowerTextMutedColor}" />
+    <SolidColorBrush x:Key="PowerAccentBrush" Color="{StaticResource PowerAccentColor}" />
+    <SolidColorBrush x:Key="PowerOkBrush" Color="{StaticResource PowerOkColor}" />
+    <SolidColorBrush x:Key="PowerWarnBrush" Color="{StaticResource PowerWarnColor}" />
+    <SolidColorBrush x:Key="PowerDangerBrush" Color="{StaticResource PowerDangerColor}" />
+
+    <FontFamily x:Key="PowerSansFont">ms-appx:///Assets/Fonts/Geist-Regular.ttf#Geist, Segoe UI</FontFamily>
+    <FontFamily x:Key="PowerMonoFont">ms-appx:///Assets/Fonts/JetBrainsMono-Regular.ttf#JetBrains Mono, Consolas</FontFamily>
+</ResourceDictionary>

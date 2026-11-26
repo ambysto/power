@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Ambysto Power for Windows: WinUI 3, unpackaged, Windows App SDK self-contained. -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.26100.0</TargetPlatformMinVersion>
+    <SupportedOSPlatformVersion>10.0.26100.0</SupportedOSPlatformVersion>
+    <UseWinUI>true</UseWinUI>
+    <WindowsPackageType>None</WindowsPackageType>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <EnableMsixTooling>true</EnableMsixTooling>
+    <Platforms>x64</Platforms>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <AssemblyName>AmbystoPower</AssemblyName>
+    <ApplicationIcon>Assets\AmbystoPower.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+    <RootNamespace>Ambysto.Power.App</RootNamespace>
+    <IsPackable>false</IsPackable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.5.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Assets\AmbystoPower.ico" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="Assets\Fonts\*.ttf" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Update="Assets\Fonts\OFL-*.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Ambysto.Power.Core/Ambysto.Power.Core.csproj" />
+  </ItemGroup>
+  <!-- The Pro features live in a private module, present only in the private repository (windows/Directory.Build.props sets
+       PowerPro where its folder exists; -p:PowerPro=false builds the public variant). -->
+  <PropertyGroup Condition="'$(PowerPro)' == 'true'">
+    <DefineConstants>$(DefineConstants);POWER_PRO</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(PowerPro)' == 'true'">
+    <ProjectReference Include="..\..\pro\Ambysto.Power.Pro\Ambysto.Power.Pro.csproj" />
+  </ItemGroup>
+</Project>
