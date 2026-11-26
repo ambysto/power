@@ -87,8 +87,15 @@ public sealed class KeepAwakeRulesGateTests
             dir = dir.Parent;
         }
 
-        if (dir is null || string.Equals(Environment.GetEnvironmentVariable("POWER_PRO_OFF"), "1", StringComparison.Ordinal))
+        if (dir is null)
         {
+            Assert.Fail("Ambysto.Power.slnx not found above " + Path.GetDirectoryName(AppSession.AppPath()));
+        }
+
+        if (string.Equals(Environment.GetEnvironmentVariable("POWER_PRO_OFF"), "1", StringComparison.Ordinal))
+        {
+            // The public variant built from the private tree on purpose: it must carry no module DLL.
+            Assert.IsFalse(hasModule, "POWER_PRO_OFF=1 builds the public variant, so the app must not carry Ambysto.Power.Pro.dll.");
             return;
         }
 
